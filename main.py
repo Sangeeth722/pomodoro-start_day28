@@ -9,12 +9,13 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
+WORK_MIN = 1
+SHORT_BREAK_MIN = 1
 LONG_BREAK_MIN = 20
 reps = 0
 timer = None
 # ---------------------------- TIMER RESET ------------------------------- #
+
 def reset():
     global reps
     start_button.config(state="normal")
@@ -27,9 +28,13 @@ def reset():
 
 
 
+
+
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global reps
+
+
     start_button.config(state="disabled")
     reps +=1
     work_in_sec = WORK_MIN * 60
@@ -55,6 +60,12 @@ def count_down(counts):
     count_sec = counts %60                    #find the reminder and thats left seconds
     #if count_sec == 0:
     #    count_sec = "00"
+    if counts < 30:
+        window.attributes('-topmost', True)
+        window.bell()
+    else:
+        window.attributes('-topmost', 0)
+
     if count_sec < 10:
         count_sec = f"0{count_sec}"
     # configure canvas.create text methode to this time
@@ -76,6 +87,7 @@ def count_down(counts):
 #
 # ---------------------------- UI SETUP ------------------------------- #
 window = tk.Tk()
+
 window.minsize(width=500,height=500)
 window.title("pomodoro")
 window.config(bg=PINK)
@@ -110,4 +122,9 @@ reset_button.grid(row=2,column=2)
 
 label_4_tick = tk.Label(fg=GREEN,bg=PINK,font=("Helvetica", 20))
 label_4_tick.grid(row=3,column=1)
+
+
+#pause button
+
+
 window.mainloop()
